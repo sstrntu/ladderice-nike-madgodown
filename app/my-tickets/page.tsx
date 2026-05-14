@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { TopBar, SectionHead } from "@/components/Brand";
 import { PseudoQR } from "@/components/PseudoQR";
+import { EventArtwork } from "@/components/EventArtwork";
 import { loadBookings } from "@/lib/store";
 import { ticketById, sessionById, THB } from "@/lib/data";
 import type { Booking } from "@/lib/types";
@@ -52,37 +53,48 @@ export default function MyTicketsPage() {
                   <span className="tc2" />
 
                   <button
-                    className="w-full text-left p-4"
+                    className="w-full text-left p-3"
                     onClick={() => setOpenId(open ? null : b.id)}
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className={`h-2 w-2 rounded-full ${tk.zoneColor}`} />
-                        <span className="font-mono text-[9.5px] tracking-[0.22em] text-bone/50">
-                          {tk.category} · #{b.bookingCode}
-                        </span>
+                    <div className="grid grid-cols-[88px_1fr] gap-3">
+                      <EventArtwork
+                        src={tk.imageUrl}
+                        accent={tk.accentHex ?? "#D4FF3D"}
+                        aspect="square"
+                        bare
+                        className="border border-bone/15"
+                      />
+                      <div className="min-w-0">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className={`h-2 w-2 rounded-full ${tk.zoneColor} shrink-0`} />
+                            <span className="font-mono text-[9.5px] tracking-[0.22em] text-bone/50 truncate">
+                              {tk.category} · #{b.bookingCode}
+                            </span>
+                          </div>
+                          <span
+                            className={`font-mono text-[9.5px] tracking-[0.22em] shrink-0 ${
+                              used
+                                ? "text-bone/40"
+                                : cancelled
+                                ? "text-red-400"
+                                : "text-volt"
+                            }`}
+                          >
+                            {used
+                              ? "USED"
+                              : cancelled
+                              ? b.status.toUpperCase()
+                              : "ACTIVE"}
+                          </span>
+                        </div>
+                        <div className="mt-1 font-impact text-[18px] leading-tight truncate">
+                          {tk.name}
+                        </div>
+                        <div className="mt-1 font-mono text-[10px] text-bone/60 truncate">
+                          {s.label} · {s.time}
+                        </div>
                       </div>
-                      <span
-                        className={`font-mono text-[9.5px] tracking-[0.22em] ${
-                          used
-                            ? "text-bone/40"
-                            : cancelled
-                            ? "text-red-400"
-                            : "text-volt"
-                        }`}
-                      >
-                        {used
-                          ? "USED"
-                          : cancelled
-                          ? b.status.toUpperCase()
-                          : "ACTIVE"}
-                      </span>
-                    </div>
-                    <div className="mt-2 font-impact text-[20px] leading-none">
-                      {tk.name}
-                    </div>
-                    <div className="mt-1.5 font-mono text-[10.5px] text-bone/60">
-                      {s.label} · {s.time}
                     </div>
                     <div className="mt-3 flex items-center justify-between">
                       <span className="font-mono text-[10px] tracking-[0.22em] text-bone/55">

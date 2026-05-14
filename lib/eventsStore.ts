@@ -9,6 +9,8 @@ export interface CmsTicketType {
   capacityPerSession: number;
   perUserLimit: number;
   description: string;
+  imageUrl?: string;
+  accentHex?: string;
   soldOut?: boolean;
 }
 export interface CmsSession {
@@ -28,6 +30,9 @@ export interface CmsEvent {
   dateRange: { from: string; to: string };
   venueLabel: string;
   posterUrl?: string;
+  heroUrl?: string;
+  gallery?: string[];
+  accentHex?: string;
   status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
   ticketTypes: CmsTicketType[];
   sessions: CmsSession[];

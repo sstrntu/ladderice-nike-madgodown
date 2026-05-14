@@ -120,11 +120,11 @@ export default function AdminPage() {
             <div className="font-mono text-[10px] tracking-[0.22em] text-bone/50">CMS</div>
             <div className="mt-1 font-impact text-[15px] leading-tight">EVENTS</div>
           </Link>
-          <Link href="/preview/emails" className="border border-bone/15 p-3 hover:border-volt/50">
+          <Link href="/admin/preview/emails" className="border border-bone/15 p-3 hover:border-volt/50">
             <div className="font-mono text-[10px] tracking-[0.22em] text-bone/50">DESIGN</div>
             <div className="mt-1 font-impact text-[15px] leading-tight">EMAILS</div>
           </Link>
-          <Link href="/preview/receipt" className="border border-bone/15 p-3 hover:border-volt/50">
+          <Link href="/admin/preview/receipt" className="border border-bone/15 p-3 hover:border-volt/50">
             <div className="font-mono text-[10px] tracking-[0.22em] text-bone/50">DESIGN</div>
             <div className="mt-1 font-impact text-[15px] leading-tight">RECEIPT</div>
           </Link>
@@ -150,20 +150,23 @@ export default function AdminPage() {
           </div>
           <div className="space-y-2">
             {inv.map(({ tk, sold, cap, pct }) => (
-              <div key={tk.id} className="border border-bone/15 p-3">
+              <Link key={tk.id} href="/admin/events" className="block border border-bone/15 hover:border-volt/40 p-3 transition-colors">
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2 min-w-0">
                     <span className={`h-2 w-2 rounded-full ${tk.zoneColor} shrink-0`} />
                     <span className="font-impact text-[15px] truncate">{tk.name}</span>
                   </div>
-                  <span className="font-mono text-[10px] tracking-[0.18em] text-bone/65 shrink-0">
-                    {sold} / {cap} · {pct}%
-                  </span>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <span className="font-mono text-[10px] tracking-[0.18em] text-bone/65">
+                      {sold} / {cap} · {pct}%
+                    </span>
+                    <span className="font-mono text-[9.5px] tracking-[0.18em] text-bone/35">EDIT →</span>
+                  </div>
                 </div>
                 <div className="mt-2 h-[4px] bg-bone/10">
                   <div className="h-full bg-volt" style={{ width: `${pct}%` }} />
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

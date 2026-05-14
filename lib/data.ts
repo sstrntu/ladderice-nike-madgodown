@@ -15,6 +15,11 @@ export const EVENT = {
     "Don't expect an address. Follow the MAD GOALDOWN signs through the alleys. Ask a tuk-tuk driver. The hunt is the experience.",
   hero: { coords: "13.7374° N · 100.5008° E", season: "WORLD CUP / RAINY 26" },
   hashtags: ["#MADGODOWN", "#MADGOALDOWN", "#NIKEFOOTBALL", "#LADDERICE", "#SONGWATBKK"],
+  // Optional uploaded media — undefined means EventArtwork falls back to procedural.
+  posterUrl: undefined as string | undefined,
+  heroUrl: undefined as string | undefined,
+  gallery: [] as string[],
+  accentHex: "#D4FF3D",
 };
 
 export const TICKET_TYPES: TicketType[] = [
@@ -29,6 +34,7 @@ export const TICKET_TYPES: TicketType[] = [
     description:
       "Free RSVP. Gets you through the inner gate. The labor supervisor will play a 'game' with you on the way in.",
     zoneColor: "bg-bone",
+    accentHex: "#EDEAD9",
   },
   {
     id: "earlybird",
@@ -41,6 +47,7 @@ export const TICKET_TYPES: TicketType[] = [
     description:
       "Be on the first boat in. Comes with a numbered Songwat ledger card and first-pull on collab merch.",
     zoneColor: "bg-volt",
+    accentHex: "#D4FF3D",
   },
   {
     id: "silk-stitch",
@@ -53,6 +60,7 @@ export const TICKET_TYPES: TicketType[] = [
     description:
       "Two hours on old Singer machines with P Rose. You sew an Avery-style nameset onto a federation blank. Take it home.",
     zoneColor: "bg-[#FF7A3D]",
+    accentHex: "#FF7A3D",
   },
   {
     id: "jame-jewel",
@@ -65,6 +73,7 @@ export const TICKET_TYPES: TicketType[] = [
     description:
       "Make one piece. Copper wire, weigh-scale fittings, a thumbprint. Jame walks you through.",
     zoneColor: "bg-[#C58A2E]",
+    accentHex: "#C58A2E",
     soldOut: true,
   },
   {
@@ -78,6 +87,7 @@ export const TICKET_TYPES: TicketType[] = [
     description:
       "A short and loud panel inside the godown. Stylists, doctors of cool, no slides.",
     zoneColor: "bg-[#3D9BFF]",
+    accentHex: "#3D9BFF",
   },
   {
     id: "fashion-show",
@@ -90,6 +100,7 @@ export const TICKET_TYPES: TicketType[] = [
     description:
       "Trader 'workflow' as runway. Pa khao ma, federation kits, copper, silk. F&B and a dessert collab. Limited.",
     zoneColor: "bg-[#E63946]",
+    accentHex: "#E63946",
   },
   {
     id: "supply-chain",
@@ -102,6 +113,7 @@ export const TICKET_TYPES: TicketType[] = [
     description:
       "The full Songwat-to-godown-to-market route. Includes one Ladderice × Nike Football collab item from the drop of 3.",
     zoneColor: "bg-[#9D4EDD]",
+    accentHex: "#9D4EDD",
   },
   {
     id: "crew-group",
@@ -114,6 +126,7 @@ export const TICKET_TYPES: TicketType[] = [
     description:
       "Five hunter passes bundled, priced like four. One ledger card per crew.",
     zoneColor: "bg-[#21A179]",
+    accentHex: "#21A179",
   },
 ];
 

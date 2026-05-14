@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { TopBar } from "@/components/Brand";
 import { PseudoQR } from "@/components/PseudoQR";
+import { EventArtwork } from "@/components/EventArtwork";
 import { getBooking } from "@/lib/store";
 import { ticketById, sessionById, THB } from "@/lib/data";
 import type { Booking } from "@/lib/types";
@@ -46,8 +47,21 @@ export default function ConfirmationPage({ params }: { params: { id: string } })
           Now find it.
         </h1>
         <p className="mt-2 text-[13px] text-bone/65 font-mono leading-snug">
-          An email is on its way. The address drops 24h before the shift.
+          An email with your QR is on its way. Save your booking code below — you can look it up anytime from any device at <span className="text-volt">/lookup</span>.
         </p>
+
+        {/* Big booking code card */}
+        <div className="mt-5 border border-volt/40 bg-dirt/40 p-4">
+          <div className="font-mono text-[10px] tracking-[0.22em] text-bone/55">
+            YOUR BOOKING CODE
+          </div>
+          <div className="mt-1 font-impact text-volt text-[34px] leading-none tracking-[0.06em]">
+            {b.bookingCode}
+          </div>
+          <div className="mt-1.5 font-mono text-[10.5px] text-bone/55">
+            Use this with the email you bought with at <span className="text-volt">/lookup</span>.
+          </div>
+        </div>
       </div>
 
       {/* QR + ticket card */}
@@ -57,10 +71,17 @@ export default function ConfirmationPage({ params }: { params: { id: string } })
         <div className="flex items-start gap-4">
           <PseudoQR seed={b.qrSeed} size={148} />
           <div className="flex-1 min-w-0">
+            <EventArtwork
+              src={tk.imageUrl}
+              accent={tk.accentHex ?? "#D4FF3D"}
+              aspect="thumb"
+              bare
+              className="w-full mb-3 border border-bone/15"
+            />
             <div className="font-mono text-[9.5px] tracking-[0.22em] text-bone/50">
               TICKET
             </div>
-            <div className="mt-1 font-impact text-[20px] leading-tight truncate">
+            <div className="mt-1 font-impact text-[18px] leading-tight truncate">
               {tk.name}
             </div>
             <div className="font-mono text-[10px] text-bone/55">×{b.quantity}</div>

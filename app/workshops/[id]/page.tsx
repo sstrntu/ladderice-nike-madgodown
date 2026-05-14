@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { TopBar } from "@/components/Brand";
+import { EventArtwork } from "@/components/EventArtwork";
 import { WORKSHOPS } from "@/lib/workshops";
 import { ticketById, THB } from "@/lib/data";
 import { useBooking } from "@/lib/context";
@@ -29,6 +30,17 @@ export default function WorkshopDetailPage({ params }: { params: { id: string } 
   return (
     <div className="relative pb-cta">
       <TopBar back="/tickets" title="WORKSHOP" />
+
+      {/* Hero artwork */}
+      <EventArtwork
+        src={tk.imageUrl}
+        accent={tk.accentHex ?? "#D4FF3D"}
+        aspect="hero"
+        eyebrow={`${tk.category} · WITH ${w.artist.toUpperCase()}`}
+        title={tk.name}
+        footer={`${w.duration} · ${w.level}`}
+        className="border-b border-bone/15"
+      />
 
       <div className="px-5 pt-5">
         {/* Eyebrow + chips */}

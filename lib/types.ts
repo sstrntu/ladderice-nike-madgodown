@@ -15,6 +15,8 @@ export interface TicketType {
   perUserLimit: number;
   description: string;
   zoneColor: string; // tailwind class for the dot
+  accentHex?: string; // hex value used by procedural artwork
+  imageUrl?: string;
   soldOut?: boolean;
 }
 

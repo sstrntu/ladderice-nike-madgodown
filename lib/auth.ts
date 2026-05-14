@@ -41,7 +41,5 @@ export function signInAsAdmin() {
   });
 }
 
-// Routes that don't require a session.
-export const PUBLIC_ROUTES = new Set<string>(["/auth"]);
-// Routes that require admin role.
+// Routes that require admin role. Everything else is public.
 export const ADMIN_ROUTE_PREFIX = "/admin";

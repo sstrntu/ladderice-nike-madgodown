@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { TopBar, SectionHead } from "@/components/Brand";
+import { PhotoFieldSingle, PhotoFieldGallery } from "@/components/PhotoField";
 import {
   getEvent, upsertEvent, deleteEvent,
   type CmsEvent, type CmsTicketType, type CmsSession,
@@ -97,36 +98,89 @@ function DetailsTab({ event, persist }: { event: CmsEvent; persist: (e: CmsEvent
   const set = <K extends keyof CmsEvent>(k: K, v: CmsEvent[K]) => setDraft((d) => ({ ...d, [k]: v }));
 
   return (
-    <div className="mt-6 space-y-5">
-      <div>
-        <label className="eyebrow">Event name</label>
-        <input className="input" value={draft.name} onChange={(e) => set("name", e.target.value)} />
-      </div>
-      <div>
-        <label className="eyebrow">Short name</label>
-        <input className="input uppercase" value={draft.shortName} onChange={(e) => set("shortName", e.target.value)} />
-      </div>
-      <div>
-        <label className="eyebrow">Tagline</label>
-        <input className="input" value={draft.tagline} onChange={(e) => set("tagline", e.target.value)} />
-      </div>
-      <div>
-        <label className="eyebrow">Description</label>
-        <textarea className="input min-h-[120px]" value={draft.description} onChange={(e) => set("description", e.target.value)} />
-      </div>
-      <div className="grid grid-cols-2 gap-3">
+    <div className="mt-6 space-y-6">
+      {/* Visuals up top */}
+      <div className="space-y-5">
+        <div className="flex items-baseline justify-between">
+          <h3 className="font-display italic text-[18px] leading-none">Visuals</h3>
+          <span className="font-mono text-[9.5px] tracking-[0.22em] text-bone/45">
+            POSTER · HERO · GALLERY
+          </span>
+        </div>
+
+        <PhotoFieldSingle
+          label="Poster · 3:4"
+          hint="Cover on /tickets and /my-tickets."
+          value={draft.posterUrl}
+          onChange={(v) => set("posterUrl", v)}
+          aspect="aspect-[3/4]"
+        />
+        <PhotoFieldSingle
+          label="Hero · 16:9"
+          hint="Wide image at the top of the landing page."
+          value={draft.heroUrl}
+          onChange={(v) => set("heroUrl", v)}
+          aspect="aspect-[16/9]"
+        />
+        <PhotoFieldGallery
+          label="Gallery"
+          hint="Crowd / venue / craft shots. Up to 8."
+          values={draft.gallery ?? []}
+          onChange={(v) => set("gallery", v)}
+          max={8}
+        />
+
         <div>
-          <label className="eyebrow">From</label>
-          <input className="input" type="date" value={draft.dateRange.from} onChange={(e) => set("dateRange", { ...draft.dateRange, from: e.target.value })} />
+          <label className="eyebrow">Accent color</label>
+          <div className="flex items-center gap-3">
+            <input
+              type="color"
+              className="h-12 w-16 bg-ink border border-bone/15 cursor-pointer p-0"
+              value={draft.accentHex ?? "#D4FF3D"}
+              onChange={(e) => set("accentHex", e.target.value)}
+            />
+            <input
+              className="input uppercase"
+              value={draft.accentHex ?? "#D4FF3D"}
+              onChange={(e) => set("accentHex", e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Core info */}
+      <div className="pt-6 border-t border-bone/10 space-y-5">
+        <h3 className="font-display italic text-[18px] leading-none">Core info</h3>
+        <div>
+          <label className="eyebrow">Event name</label>
+          <input className="input" value={draft.name} onChange={(e) => set("name", e.target.value)} />
         </div>
         <div>
-          <label className="eyebrow">To</label>
-          <input className="input" type="date" value={draft.dateRange.to} onChange={(e) => set("dateRange", { ...draft.dateRange, to: e.target.value })} />
+          <label className="eyebrow">Short name</label>
+          <input className="input uppercase" value={draft.shortName} onChange={(e) => set("shortName", e.target.value)} />
         </div>
-      </div>
-      <div>
-        <label className="eyebrow">Venue</label>
-        <input className="input uppercase" value={draft.venueLabel} onChange={(e) => set("venueLabel", e.target.value)} />
+        <div>
+          <label className="eyebrow">Tagline</label>
+          <input className="input" value={draft.tagline} onChange={(e) => set("tagline", e.target.value)} />
+        </div>
+        <div>
+          <label className="eyebrow">Description</label>
+          <textarea className="input min-h-[120px]" value={draft.description} onChange={(e) => set("description", e.target.value)} />
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="eyebrow">From</label>
+            <input className="input" type="date" value={draft.dateRange.from} onChange={(e) => set("dateRange", { ...draft.dateRange, from: e.target.value })} />
+          </div>
+          <div>
+            <label className="eyebrow">To</label>
+            <input className="input" type="date" value={draft.dateRange.to} onChange={(e) => set("dateRange", { ...draft.dateRange, to: e.target.value })} />
+          </div>
+        </div>
+        <div>
+          <label className="eyebrow">Venue</label>
+          <input className="input uppercase" value={draft.venueLabel} onChange={(e) => set("venueLabel", e.target.value)} />
+        </div>
       </div>
 
       <button
@@ -205,6 +259,32 @@ function TicketsTab({ event, persist }: { event: CmsEvent; persist: (e: CmsEvent
               <label className="eyebrow">Description</label>
               <textarea className="input min-h-[72px]" value={t.description} onChange={(e) => update(t.id, { description: e.target.value })} />
             </div>
+
+            <PhotoFieldSingle
+              label="Ticket image · 4:3"
+              hint="Used as the workshop card preview. Optional."
+              value={t.imageUrl}
+              onChange={(v) => update(t.id, { imageUrl: v })}
+              aspect="aspect-[4/3]"
+            />
+
+            <div>
+              <label className="eyebrow">Accent color (procedural fallback)</label>
+              <div className="flex items-center gap-3">
+                <input
+                  type="color"
+                  className="h-10 w-14 bg-ink border border-bone/15 cursor-pointer p-0"
+                  value={t.accentHex ?? "#D4FF3D"}
+                  onChange={(e) => update(t.id, { accentHex: e.target.value })}
+                />
+                <input
+                  className="input uppercase"
+                  value={t.accentHex ?? "#D4FF3D"}
+                  onChange={(e) => update(t.id, { accentHex: e.target.value })}
+                />
+              </div>
+            </div>
+
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={!!t.soldOut} onChange={(e) => update(t.id, { soldOut: e.target.checked })} className="accent-volt h-4 w-4" />
               <span className="font-mono text-[11px] tracking-[0.18em] text-bone/75">MARK AS SOLD OUT</span>

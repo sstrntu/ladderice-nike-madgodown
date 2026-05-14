@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { TopBar, SectionHead } from "@/components/Brand";
+import { EventArtwork } from "@/components/EventArtwork";
 import { loadEvents, type CmsEvent } from "@/lib/eventsStore";
 
 export default function EventsListPage() {
@@ -37,27 +38,40 @@ export default function EventsListPage() {
               <Link
                 key={e.id}
                 href={`/admin/events/${e.id}`}
-                className="block border border-bone/15 p-4 hover:border-volt/50"
+                className="block border border-bone/15 hover:border-volt/50 overflow-hidden"
               >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[9.5px] tracking-[0.22em] text-bone/50">
-                    {e.id}
-                  </span>
-                  <span className={`font-mono text-[9.5px] tracking-[0.22em] ${
-                    e.status === "PUBLISHED" ? "text-volt"
-                    : e.status === "DRAFT" ? "text-bone/55" : "text-red-400"
-                  }`}>
-                    {e.status}
-                  </span>
-                </div>
-                <div className="mt-1.5 font-impact text-[18px] leading-tight">{e.name}</div>
-                <div className="mt-1 font-mono text-[10.5px] text-bone/60">
-                  {e.dateRange.from} → {e.dateRange.to} · {e.venueLabel}
-                </div>
-                <div className="mt-2 flex items-center gap-3 font-mono text-[10px] tracking-[0.18em] text-bone/55">
-                  <span>{e.ticketTypes.length} TICKETS</span>
-                  <span>·</span>
-                  <span>{e.sessions.length} SESSIONS</span>
+                <div className="grid grid-cols-[96px_1fr]">
+                  <EventArtwork
+                    src={e.posterUrl || e.heroUrl}
+                    accent={e.accentHex ?? "#D4FF3D"}
+                    aspect="thumb"
+                    title={e.shortName || e.name}
+                    bare={!!e.posterUrl || !!e.heroUrl}
+                    className="border-r border-bone/15"
+                  />
+                  <div className="p-3">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[9.5px] tracking-[0.22em] text-bone/50 truncate">
+                        {e.id}
+                      </span>
+                      <span className={`font-mono text-[9.5px] tracking-[0.22em] shrink-0 ${
+                        e.status === "PUBLISHED" ? "text-volt"
+                        : e.status === "DRAFT" ? "text-bone/55" : "text-red-400"
+                      }`}>
+                        {e.status}
+                      </span>
+                    </div>
+                    <div className="mt-1 font-impact text-[16px] leading-tight truncate">{e.name}</div>
+                    <div className="mt-1 font-mono text-[10px] text-bone/55 truncate">
+                      {e.dateRange.from} → {e.dateRange.to}
+                    </div>
+                    <div className="mt-1.5 flex items-center gap-2 font-mono text-[9.5px] tracking-[0.18em] text-bone/55">
+                      <span>{e.ticketTypes.length}T</span>
+                      <span>·</span>
+                      <span>{e.sessions.length}S</span>
+                      {(e.gallery?.length ?? 0) > 0 && (<><span>·</span><span>{e.gallery?.length}📷</span></>)}
+                    </div>
+                  </div>
                 </div>
               </Link>
             ))}

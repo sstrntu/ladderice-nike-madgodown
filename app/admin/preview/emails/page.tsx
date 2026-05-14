@@ -18,7 +18,7 @@ export default function EmailPreviewPage() {
 
   return (
     <div className="relative pb-10">
-      <TopBar back="/" title="EMAIL PREVIEWS" />
+      <TopBar back="/admin" title="EMAIL PREVIEWS" />
 
       <div className="px-5 pt-6">
         <SectionHead
@@ -99,15 +99,16 @@ function Confirmation() {
   return (
     <>
       <Hello />
-      <p className="mt-2">You're in. Your seat at <strong>MAD GODOWN BKK</strong> is locked.</p>
+      <p className="mt-2">You&apos;re in. Your seat at <strong>MAD GODOWN BKK</strong> is locked.</p>
       <div className="my-4 border border-ink/15 p-4 bg-white">
-        <div className="text-[10px] tracking-[0.22em] text-ink/55 font-mono">BOOKING</div>
-        <div className="font-impact text-[22px] mt-1">MG-K3X9P2</div>
+        <div className="text-[10px] tracking-[0.22em] text-ink/55 font-mono">BOOKING CODE</div>
+        <div className="font-impact text-[26px] mt-1 tracking-[0.06em]">MG-K3X9P2</div>
         <div className="text-[11.5px] mt-3 text-ink/55 font-mono tracking-[0.16em]">SAT 13 JUN · SHIFT A · 09:00–18:00</div>
         <div className="text-[11.5px] mt-1 text-ink/55 font-mono tracking-[0.16em]">SILK &amp; STITCH · ×1</div>
         <div className="text-[16px] mt-3 font-impact">TOTAL · ฿895</div>
       </div>
-      <p>The address drops 24 hours before your shift. Watch this inbox and your LINE.</p>
+      <p><strong>No account needed.</strong> Save this code &mdash; you can pull up your QR anytime at <a className="underline">madgodown.com/lookup</a> with this code + the email this was sent to.</p>
+      <p className="mt-3">The address drops 24 hours before your shift. Watch this inbox and your LINE.</p>
       <p className="mt-3">Bring photo ID. Name on ticket must match.</p>
       <Sign />
     </>

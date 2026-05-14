@@ -11,7 +11,7 @@ export default function ReceiptPreviewPage() {
 
   return (
     <div className="relative pb-10">
-      <TopBar back="/" title="RECEIPT PREVIEW" />
+      <TopBar back="/admin" title="RECEIPT PREVIEW" />
 
       <div className="px-5 pt-6">
         <SectionHead

@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { TopBar, StepDots, SectionHead } from "@/components/Brand";
+import { EventArtwork } from "@/components/EventArtwork";
 import { TICKET_TYPES, THB, PROMO_CODES } from "@/lib/data";
 import { WORKSHOPS } from "@/lib/workshops";
 import { useBooking } from "@/lib/context";
@@ -84,27 +85,51 @@ export default function TicketsPage() {
                     quantity: Math.min(qty, t.perUserLimit),
                   })
                 }
-                className={`crate w-full text-left p-4 relative tick-corners ${
+                className={`crate w-full text-left relative tick-corners overflow-hidden ${
                   isSel ? "selected" : ""
                 } ${t.soldOut ? "sold" : ""}`}
               >
                 <span className="tc1" />
                 <span className="tc2" />
 
+                {/* artwork band */}
+                <div className="grid grid-cols-[88px_1fr] gap-3 p-3 items-center">
+                  <EventArtwork
+                    src={t.imageUrl}
+                    accent={t.accentHex ?? "#D4FF3D"}
+                    aspect="square"
+                    bare
+                    className="border border-bone/15"
+                  />
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className={`h-2 w-2 rounded-full ${t.zoneColor}`} />
+                      <span className="font-mono text-[9.5px] tracking-[0.22em] text-bone/50">
+                        {t.category}
+                      </span>
+                    </div>
+                    <div className="mt-1 font-impact text-[18px] leading-tight truncate">
+                      {t.name}
+                    </div>
+                    <div className="mt-0.5 font-mono text-[10px] text-bone/50 leading-snug truncate">
+                      {t.subtitle}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="px-4 pt-3 pb-4 border-t border-bone/12">
+
                 {/* meta row */}
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className={`h-2 w-2 rounded-full ${t.zoneColor}`} />
-                    <span className="font-mono text-[9.5px] tracking-[0.22em] text-bone/50">
-                      {t.category}
-                    </span>
-                  </div>
+                  <span className="font-mono text-[9.5px] tracking-[0.22em] text-bone/50">
+                    {t.soldOut ? "" : `CAP ${t.capacityPerSession} / SESSION`}
+                  </span>
                   <span
                     className={`font-mono text-[9.5px] tracking-[0.22em] ${
                       t.soldOut ? "text-red-400" : "text-volt"
                     }`}
                   >
-                    {t.soldOut ? "SOLD OUT" : `${t.capacityPerSession} CAP / SESSION`}
+                    {t.soldOut ? "SOLD OUT" : "AVAILABLE"}
                   </span>
                 </div>
 
@@ -184,6 +209,7 @@ export default function TicketsPage() {
                     </div>
                   </div>
                 )}
+                </div>
               </button>
             );
           })}

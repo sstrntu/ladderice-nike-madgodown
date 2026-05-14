@@ -2,10 +2,14 @@ import Link from "next/link";
 import { BrandMark } from "@/components/Brand";
 import { EVENT, TICKET_TYPES, THB } from "@/lib/data";
 import { HeaderNav } from "@/components/HeaderNav";
+import { EventArtwork } from "@/components/EventArtwork";
+import { AdminBanner } from "@/components/AdminBanner";
 
 export default function Landing() {
   return (
     <div className="relative">
+      <AdminBanner />
+
       {/* HEADER */}
       <header className="px-5 h-14 flex items-center justify-between border-b border-bone/10">
         <BrandMark />
@@ -36,7 +40,20 @@ export default function Landing() {
           <span>{EVENT.hero.season}</span>
         </div>
 
-        <h1 className="mt-5 font-display italic tracking-[-0.01em] text-bone leading-none whitespace-nowrap text-[68px]">
+        {/* Hero artwork — uses uploaded heroUrl if present, otherwise procedural */}
+        <div className="mt-4 -mx-5">
+          <EventArtwork
+            src={EVENT.heroUrl}
+            accent={EVENT.accentHex}
+            aspect="hero"
+            eyebrow="แม๊ดโกดัง · 狂仓"
+            title="BANGKOK / 26"
+            footer={`${EVENT.dateLabel} · SONGWAT`}
+            className="border-y border-bone/15"
+          />
+        </div>
+
+        <h1 className="mt-6 font-display italic tracking-[-0.01em] text-bone leading-none whitespace-nowrap text-[68px]">
           BANGKOK
         </h1>
 
@@ -100,8 +117,27 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* LOOKUP BANNER */}
+      <section className="px-5 mt-10">
+        <Link
+          href="/lookup"
+          className="flex items-center justify-between border border-bone/20 hover:border-volt/60 p-4 group transition-colors"
+        >
+          <div>
+            <div className="font-mono text-[9.5px] tracking-[0.28em] text-bone/50">ALREADY BOOKED?</div>
+            <div className="mt-1 font-impact text-[20px] leading-tight text-bone group-hover:text-volt transition-colors">
+              LOOK UP YOUR TICKET
+            </div>
+            <div className="mt-0.5 font-mono text-[10.5px] text-bone/55 tracking-[0.16em]">
+              Retrieve your QR with booking code + email
+            </div>
+          </div>
+          <div className="font-impact text-volt text-[28px] leading-none shrink-0 ml-4">→</div>
+        </Link>
+      </section>
+
       {/* TICKETS PREVIEW */}
-      <section className="mt-12">
+      <section className="mt-10">
         <div className="px-5 flex items-baseline justify-between mb-4">
           <h2 className="font-display italic text-[28px] leading-none">The tickets</h2>
           <Link
@@ -116,29 +152,30 @@ export default function Landing() {
             <Link
               href="/tickets"
               key={t.id}
-              className={`crate ${t.soldOut ? "sold" : ""} relative shrink-0 w-[212px] p-4 tick-corners`}
+              className={`crate ${t.soldOut ? "sold" : ""} relative shrink-0 w-[224px] tick-corners overflow-hidden`}
             >
               <span className="tc1" />
               <span className="tc2" />
-              <div className="flex items-center gap-2">
-                <span className={`h-2 w-2 rounded-full ${t.zoneColor}`} />
-                <span className="font-mono text-[9.5px] tracking-[0.22em] text-bone/50">
-                  {t.category}
-                </span>
-              </div>
-              <div className="mt-3 font-impact text-[20px] leading-tight">
-                {t.name}
-              </div>
-              <div className="mt-1 font-mono text-[10.5px] text-bone/50 leading-snug min-h-[28px] line-clamp-2">
-                {t.subtitle}
-              </div>
-              <div className="mt-4 flex items-baseline justify-between">
-                <span className="font-display text-volt text-[22px] leading-none">
-                  {THB(t.priceTHB)}
-                </span>
-                <span className="font-mono text-[9.5px] tracking-[0.22em] text-bone/45">
-                  {t.soldOut ? "SOLD OUT" : "AVAILABLE"}
-                </span>
+              <EventArtwork
+                src={t.imageUrl}
+                accent={t.accentHex ?? "#D4FF3D"}
+                aspect="thumb"
+                eyebrow={t.category}
+                title={t.name}
+                bare={!!t.imageUrl}
+              />
+              <div className="p-4">
+                <div className="font-mono text-[10px] text-bone/50 leading-snug min-h-[24px] line-clamp-2">
+                  {t.subtitle}
+                </div>
+                <div className="mt-3 flex items-baseline justify-between">
+                  <span className="font-display text-volt text-[22px] leading-none">
+                    {THB(t.priceTHB)}
+                  </span>
+                  <span className="font-mono text-[9.5px] tracking-[0.22em] text-bone/45">
+                    {t.soldOut ? "SOLD OUT" : "AVAILABLE"}
+                  </span>
+                </div>
               </div>
             </Link>
           ))}
@@ -178,6 +215,23 @@ export default function Landing() {
         </ul>
       </section>
 
+      {/* GALLERY (from event) */}
+      {EVENT.gallery.length > 0 && (
+        <section className="mt-12">
+          <div className="px-5 mb-4">
+            <h2 className="font-display italic text-[28px] leading-none">From the floor</h2>
+          </div>
+          <div className="flex gap-2 overflow-x-auto no-scrollbar px-5 pb-2">
+            {EVENT.gallery.map((src, i) => (
+              <div key={i} className="shrink-0 w-[200px] aspect-square border border-bone/15">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={src} alt={`Songwat ${i + 1}`} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* HASHTAGS */}
       <section className="px-5 mt-12">
         <div className="flex flex-wrap gap-2">
@@ -193,12 +247,8 @@ export default function Landing() {
           BY LADDERICE × NIKE FOOTBALL · APR 2026
         </div>
         <div className="mt-4 grid grid-cols-2 gap-y-2 font-mono text-[10px] tracking-[0.22em]">
-          <Link href="/admin" className="text-bone/40 hover:text-volt">→ ADMIN DASHBOARD</Link>
-          <Link href="/admin/events" className="text-bone/40 hover:text-volt">→ EVENT CMS</Link>
-          <Link href="/queue" className="text-bone/40 hover:text-volt">→ WAITING ROOM</Link>
+          <Link href="/lookup" className="text-volt hover:underline">→ LOOK UP TICKET</Link>
           <Link href="/waitlist" className="text-bone/40 hover:text-volt">→ WAITLIST</Link>
-          <Link href="/preview/emails" className="text-bone/40 hover:text-volt">→ EMAIL PREVIEWS</Link>
-          <Link href="/preview/receipt" className="text-bone/40 hover:text-volt">→ RECEIPT PREVIEW</Link>
         </div>
       </footer>
     </div>
