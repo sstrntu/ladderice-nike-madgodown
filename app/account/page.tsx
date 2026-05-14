@@ -58,6 +58,11 @@ export default function AccountPage() {
               <div className="font-mono text-[10.5px] tracking-[0.18em] text-bone/55 truncate">
                 {user.email} · via {user.provider.toUpperCase()}
               </div>
+              <div className={`mt-1 font-mono text-[9.5px] tracking-[0.22em] ${
+                user.role === "admin" ? "text-volt" : "text-bone/50"
+              }`}>
+                ROLE · {user.role.toUpperCase()}
+              </div>
             </div>
           </div>
         </div>

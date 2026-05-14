@@ -2,16 +2,25 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { TopBar, SectionHead } from "@/components/Brand";
-import { setUser } from "@/lib/auth";
+import { setUser, signInAsAdmin } from "@/lib/auth";
 
 type Step = "method" | "otp" | "done";
 
 export default function AuthPage() {
   return (
-    <Suspense fallback={<div className="px-5 py-10"><TopBar back="/" /></div>}>
+    <Suspense fallback={<FrontDoorShell />}>
       <AuthInner />
     </Suspense>
+  );
+}
+
+function FrontDoorShell() {
+  return (
+    <div className="px-5 pt-12">
+      <div className="font-mono text-[10px] tracking-[0.32em] text-bone/55">
+        FRONT DOOR
+      </div>
+    </div>
   );
 }
 
@@ -44,9 +53,14 @@ function AuthInner() {
 
   const verifyCode = () => {
     if (!isValidCode) return;
-    setUser({ email, provider: "email", signedInAt: Date.now() });
+    setUser({
+      email,
+      provider: "email",
+      role: "user",
+      signedInAt: Date.now(),
+    });
     setStep("done");
-    setTimeout(() => router.push(redirect), 800);
+    setTimeout(() => router.push(redirect), 700);
   };
 
   const onDigit = (i: number, v: string) => {
@@ -73,25 +87,43 @@ function AuthInner() {
     setUser({
       email: `${provider}-user@example.com`,
       provider,
+      role: "user",
       signedInAt: Date.now(),
     });
     router.push(redirect);
   };
 
-  return (
-    <div className="relative pb-10">
-      <TopBar back="/" title="SIGN IN" />
+  const goAdmin = () => {
+    signInAsAdmin();
+    router.push("/admin");
+  };
 
-      <div className="px-5 pt-6">
+  return (
+    <div className="relative">
+      {/* Front-door hero */}
+      <div className="px-5 pt-10 pb-6">
+        <div className="font-mono text-[10px] tracking-[0.32em] text-bone/55">
+          FRONT DOOR · BKK · 2026
+        </div>
+        <h1 className="mt-4 font-display italic text-bone leading-[0.88] text-[64px] whitespace-nowrap tracking-tight">
+          MAD GODOWN
+        </h1>
+        <div className="mt-2 font-mono text-[11px] tracking-[0.22em] text-bone/55">
+          แม๊ดโกดัง · 狂仓
+        </div>
+      </div>
+
+      <div className="px-5 pb-12">
         {step === "method" && (
           <>
-            <SectionHead
-              eyebrow="MEMBER GATE"
-              title="Step inside."
-              hint="One ID, every ticket. We email you a 6-digit code — no passwords."
-            />
+            <div className="font-display italic text-[26px] leading-tight">
+              Step inside.
+            </div>
+            <p className="mt-2 text-[12.5px] text-bone/65 font-mono leading-snug">
+              One ID, every ticket. We email you a 6-digit code &mdash; no passwords.
+            </p>
 
-            <div className="mt-7 space-y-3">
+            <div className="mt-6 space-y-3">
               <button
                 onClick={() => social("line")}
                 className="btn-volt !bg-[#06C755] !text-white"
@@ -106,7 +138,7 @@ function AuthInner() {
               </button>
             </div>
 
-            <div className="my-7 flex items-center gap-3">
+            <div className="my-6 flex items-center gap-3">
               <span className="h-px flex-1 bg-bone/15" />
               <span className="font-mono text-[10px] tracking-[0.22em] text-bone/45">
                 OR EMAIL
@@ -132,27 +164,48 @@ function AuthInner() {
               SEND CODE &nbsp;→
             </button>
 
-            <p className="mt-6 font-mono text-[10.5px] tracking-[0.18em] text-bone/45 leading-snug">
+            {/* Demo / staff entrance */}
+            <div className="mt-10 relative border border-dashed border-bone/25 p-4">
+              <span className="absolute -top-2 left-3 bg-ink px-2 font-mono text-[9.5px] tracking-[0.22em] text-bone/55">
+                STAFF ENTRANCE · DEMO
+              </span>
+              <p className="text-[12px] text-bone/65 leading-snug">
+                Bypass the email step and jump straight into the organizer dashboard with seeded permissions.
+              </p>
+              <button
+                onClick={goAdmin}
+                className="btn-ghost mt-3 !border-volt !text-volt"
+              >
+                SIGN IN AS ADMIN &nbsp;→
+              </button>
+              <div className="mt-2 font-mono text-[9.5px] tracking-[0.22em] text-bone/40">
+                POC ONLY · REMOVE BEFORE LAUNCH
+              </div>
+            </div>
+
+            <p className="mt-6 font-mono text-[10px] tracking-[0.18em] text-bone/45 leading-snug">
               By continuing you agree to our{" "}
-              <Link href="/legal/terms" className="text-volt underline-offset-4 hover:underline">
+              <Link href="#" className="text-volt underline-offset-4 hover:underline">
                 Terms
               </Link>{" "}
               and{" "}
-              <Link href="/legal/privacy" className="text-volt underline-offset-4 hover:underline">
+              <Link href="#" className="text-volt underline-offset-4 hover:underline">
                 Privacy Notice
               </Link>
-              .
+              . PDPA compliant.
             </p>
           </>
         )}
 
         {step === "otp" && (
           <>
-            <SectionHead
-              eyebrow="VERIFY"
-              title="Code sent."
-              hint={`Six digits on the way to ${email}. Expires in 10 minutes.`}
-            />
+            <div className="font-display italic text-[26px] leading-tight">
+              Code sent.
+            </div>
+            <p className="mt-2 text-[12.5px] text-bone/65 font-mono leading-snug">
+              Six digits on the way to{" "}
+              <span className="text-bone">{email}</span>. Expires in 10 minutes.
+            </p>
 
             <div className="mt-7 grid grid-cols-6 gap-2">
               {code.map((d, i) => (
@@ -167,7 +220,7 @@ function AuthInner() {
                   onPaste={onPaste}
                   inputMode="numeric"
                   maxLength={1}
-                  className="input !h-14 text-center font-impact text-[28px] !p-0 tracking-none"
+                  className="input !h-14 text-center font-impact text-[28px] !p-0"
                 />
               ))}
             </div>
@@ -207,9 +260,9 @@ function AuthInner() {
         {step === "done" && (
           <div className="mt-10 text-center">
             <div className="tape inline-block">CONFIRMED</div>
-            <h1 className="mt-5 font-display italic text-[40px] leading-[0.95]">
+            <h2 className="mt-5 font-display italic text-[36px] leading-[0.95]">
               You&apos;re in.
-            </h1>
+            </h2>
             <p className="mt-2 font-mono text-[11px] tracking-[0.22em] text-bone/55">
               REDIRECTING…
             </p>

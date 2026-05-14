@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Playfair_Display, IBM_Plex_Sans, IBM_Plex_Mono, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import { BookingProvider } from "@/lib/context";
+import { AuthGuard } from "@/components/AuthGuard";
 
 const display = Playfair_Display({
   subsets: ["latin"],
@@ -49,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="scanlines" />
         <BookingProvider>
           <main className="relative z-10 min-h-screen mx-auto max-w-[440px] pb-32">
-            {children}
+            <AuthGuard>{children}</AuthGuard>
           </main>
         </BookingProvider>
         <div className="grain" />
