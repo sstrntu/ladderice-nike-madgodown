@@ -65,7 +65,7 @@ export default function CancelPage({ params }: { params: { id: string } }) {
       <div className="px-5 pt-6">
         <SectionHead
           title="Manage."
-          hint="Refunds depend on the event policy. Admin may need to approve."
+          hint="Refunds depend on the workshop policy. Admin may need to approve."
         />
 
         {/* Booking summary */}

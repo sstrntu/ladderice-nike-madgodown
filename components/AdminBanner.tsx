@@ -24,7 +24,7 @@ export function AdminBanner() {
       <div className="font-mono text-[9.5px] tracking-[0.22em] font-bold">ADMIN MODE</div>
       <div className="flex items-center gap-4 font-mono text-[9.5px] tracking-[0.22em]">
         <Link href="/admin" className="hover:underline">DASHBOARD</Link>
-        <Link href="/admin/events" className="hover:underline">EDIT EVENTS</Link>
+        <Link href="/admin/events" className="hover:underline">EDIT WORKSHOPS</Link>
         <Link href="/admin/events/new" className="hover:underline">+ NEW</Link>
       </div>
     </div>

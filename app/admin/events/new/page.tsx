@@ -50,12 +50,12 @@ export default function NewEventPage() {
 
   return (
     <div className="relative pb-cta">
-      <TopBar back="/admin/events" title="NEW EVENT" />
+      <TopBar back="/admin/events" title="NEW WORKSHOP" />
 
       <div className="px-5 pt-6">
         <SectionHead
           eyebrow="CMS · CREATE"
-          title="New event."
+          title="New workshop."
           hint="Drop the core info + visuals. Add tickets and sessions after saving."
         />
 
@@ -70,7 +70,7 @@ export default function NewEventPage() {
           <p className="mt-2 font-mono text-[10px] tracking-[0.18em] text-bone/50 leading-snug">
             Poster = vertical card used on tickets list + my-tickets.
             Hero = wide image on the landing.
-            Gallery = optional shots for the event page.
+            Gallery = optional shots for the workshop page.
           </p>
 
           <div className="mt-5 space-y-6">
@@ -124,7 +124,7 @@ export default function NewEventPage() {
           <h2 className="font-display italic text-[22px] leading-none">Core info</h2>
 
           <div className="mt-5 space-y-5">
-            <Field label="Event name *" hint="e.g. Mad Godown BKK 26">
+            <Field label="Workshop name *" hint="e.g. Mad Godown BKK 26">
               <input className="input" value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="LADDERICE × NIKE FB — MAD GODOWN" />
             </Field>
 

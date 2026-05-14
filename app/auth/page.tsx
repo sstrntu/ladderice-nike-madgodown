@@ -52,7 +52,7 @@ function AuthInner() {
           Staff entrance.
         </h1>
         <p className="mt-3 text-[13px] text-bone/70 leading-snug">
-          Only event organizers and gate staff sign in. Ticket buyers
+          Only workshop organizers and gate staff sign in. Ticket buyers
           don&apos;t need an account &mdash; QR codes arrive by email with a
           confirmation code they can look up anytime.
         </p>

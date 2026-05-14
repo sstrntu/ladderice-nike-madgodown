@@ -98,7 +98,7 @@ export default function AccountPage() {
                 className="mt-1 accent-volt h-4 w-4 shrink-0"
               />
               <span className="text-[12.5px] text-bone/85 leading-snug">
-                Send me drop alerts, address reveals, and post-event recaps via email + LINE.
+                Send me drop alerts, address reveals, and post-workshop recaps via email + LINE.
                 <span className="block mt-1 font-mono text-[10.5px] text-bone/45 tracking-[0.16em]">
                   PDPA — you can opt out anytime.
                 </span>

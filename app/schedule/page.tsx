@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { TopBar, StepDots, SectionHead } from "@/components/Brand";
-import { SESSIONS, ticketById } from "@/lib/data";
+import { SESSIONS, TICKET_DATE_OPTIONS, ticketById } from "@/lib/data";
 import { useBooking } from "@/lib/context";
 
 export default function SchedulePage() {
@@ -10,19 +10,24 @@ export default function SchedulePage() {
   const { draft, setDraft } = useBooking();
   const tk = ticketById(draft.ticketTypeId);
 
+  const availableDates = tk ? TICKET_DATE_OPTIONS[tk.id] : undefined;
+  const availableSessions = availableDates
+    ? SESSIONS.filter((s) => availableDates.includes(s.date))
+    : SESSIONS;
+
   const dates = useMemo(() => {
     const seen = new Set<string>();
-    return SESSIONS.filter((s) => {
+    return availableSessions.filter((s) => {
       if (seen.has(s.date)) return false;
       seen.add(s.date);
       return true;
     });
-  }, []);
+  }, [availableSessions]);
 
   const initialDate =
-    SESSIONS.find((s) => s.id === draft.sessionId)?.date ?? dates[0].date;
+    availableSessions.find((s) => s.id === draft.sessionId)?.date ?? dates[0].date;
   const [activeDate, setActiveDate] = useState<string>(initialDate);
-  const slots = SESSIONS.filter((s) => s.date === activeDate);
+  const slots = availableSessions.filter((s) => s.date === activeDate);
 
   const [holdUntil, setHoldUntil] = useState<number | null>(null);
   useEffect(() => {
@@ -47,7 +52,7 @@ export default function SchedulePage() {
       <StepDots step={2} />
 
       <div className="px-5 pt-5">
-        <SectionHead title="Pick a shift." hint="Mon–Fri: 1 shift · Sat–Sun: 2 shifts. Capacity is real." />
+        <SectionHead title="Pick a session." hint="Only eligible workshop dates are shown. Capacity is extremely limited." />
 
         {/* Selected ticket reference */}
         <div className="mt-5 flex items-center gap-2 border border-bone/12 px-3 py-2.5">

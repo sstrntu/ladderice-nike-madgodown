@@ -35,7 +35,7 @@ export default function EditEventPage({ params }: { params: { id: string } }) {
 
   return (
     <div className="relative pb-cta">
-      <TopBar back="/admin/events" title="EDIT EVENT" right={
+      <TopBar back="/admin/events" title="EDIT WORKSHOP" right={
         <span className="font-mono text-[10px] tracking-[0.22em] text-bone/45">{e.status}</span>
       } />
 
@@ -74,7 +74,7 @@ export default function EditEventPage({ params }: { params: { id: string } }) {
         </button>
         <button
           onClick={() => {
-            if (confirm("Delete this event? Cannot undo.")) {
+            if (confirm("Delete this workshop? Cannot undo.")) {
               deleteEvent(e.id);
               router.push("/admin/events");
             }
@@ -152,7 +152,7 @@ function DetailsTab({ event, persist }: { event: CmsEvent; persist: (e: CmsEvent
       <div className="pt-6 border-t border-bone/10 space-y-5">
         <h3 className="font-display italic text-[18px] leading-none">Core info</h3>
         <div>
-          <label className="eyebrow">Event name</label>
+          <label className="eyebrow">Workshop name</label>
           <input className="input" value={draft.name} onChange={(e) => set("name", e.target.value)} />
         </div>
         <div>

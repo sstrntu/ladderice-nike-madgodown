@@ -38,8 +38,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "MAD GODOWN BKK 26 — Ladderice × Nike Football",
-  description: "Songwat. June 11–21, 2026. A controlled chaos marketplace.",
+  title: "MAD SKILLS WORKSHOPs — Ladderice × Nike Football",
+  description: "Play Art House Songwat. June 11-21, 2026. MAD SKILLS workshops and always-on customization.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

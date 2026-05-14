@@ -161,7 +161,7 @@ export default function AttendeePage() {
             FINE PRINT
           </div>
           <p className="mt-2 text-[12px] text-bone/70 leading-snug">
-            Tickets are non-refundable within 7 days of the event. E-ticket
+            Tickets are non-refundable within 7 days of the workshop. E-ticket
             emailed within 24h. Show QR + ID at the inner gate. Lineup, time,
             and address are subject to change — that's the point.
           </p>

@@ -66,12 +66,12 @@ export default function AdminPage() {
 
   const seedDemo = () => {
     const demo: Booking[] = [
-      mkBooking("hunter", SESSIONS[0].id, 2, "John Smith", "john@example.com", "confirmed"),
-      mkBooking("earlybird", SESSIONS[0].id, 1, "Anna Lee", "anna@example.com", "confirmed"),
-      mkBooking("silk-stitch", SESSIONS[3].id, 1, "Michael Brown", "mb@example.com", "checked_in"),
-      mkBooking("fashion-show", SESSIONS[0].id, 2, "Sophia Davis", "sd@example.com", "confirmed"),
-      mkBooking("supply-chain", SESSIONS[2].id, 1, "David Wilson", "dw@example.com", "confirmed"),
-      mkBooking("crew-group", SESSIONS[5].id, 1, "Crew Five", "crew@example.com", "refunded"),
+      mkBooking("always-on", SESSIONS[0].id, 1, "John Smith", "john@example.com", "confirmed"),
+      mkBooking("opening-night", SESSIONS[0].id, 1, "Anna Lee", "anna@example.com", "confirmed"),
+      mkBooking("styling-mad-ginga", "2026-06-13_AM", 1, "Michael Brown", "mb@example.com", "checked_in"),
+      mkBooking("silktrade", "2026-06-15_EVE", 1, "Sophia Davis", "sd@example.com", "confirmed"),
+      mkBooking("teatalk-hia-wit", "2026-06-17_EVE", 1, "David Wilson", "dw@example.com", "confirmed"),
+      mkBooking("nat-am", "2026-06-21_PM", 1, "Crew Five", "crew@example.com", "refunded"),
     ];
     saveBookings([...demo, ...list]);
     refresh();
@@ -87,10 +87,8 @@ export default function AdminPage() {
     const rows = [
       ["BookingCode", "Status", "Ticket", "Session", "Qty", "Total", "Name", "Email", "Phone", "Created"].join(","),
       ...list.map((b) => {
-        const tk = ticketById(b.ticketTypeId)!;
-        const s = sessionById(b.sessionId)!;
         return [
-          b.bookingCode, b.status, tk.name, s.label + " " + s.time,
+          b.bookingCode, b.status, ticketLabel(b), sessionLabel(b),
           b.quantity, b.totalTHB, b.attendee.fullName, b.attendee.email,
           b.attendee.phone, new Date(b.createdAt).toISOString(),
         ]
@@ -118,7 +116,7 @@ export default function AdminPage() {
         <div className="mt-5 grid grid-cols-3 gap-2">
           <Link href="/admin/events" className="border border-bone/15 p-3 hover:border-volt/50">
             <div className="font-mono text-[10px] tracking-[0.22em] text-bone/50">CMS</div>
-            <div className="mt-1 font-impact text-[15px] leading-tight">EVENTS</div>
+            <div className="mt-1 font-impact text-[15px] leading-tight">WORKSHOPS</div>
           </Link>
           <Link href="/admin/preview/emails" className="border border-bone/15 p-3 hover:border-volt/50">
             <div className="font-mono text-[10px] tracking-[0.22em] text-bone/50">DESIGN</div>
@@ -224,8 +222,6 @@ export default function AdminPage() {
             </p>
           ) : (
             filtered.map((b) => {
-              const tk = ticketById(b.ticketTypeId)!;
-              const s = sessionById(b.sessionId)!;
               return (
                 <div key={b.id} className="border border-bone/15 p-3">
                   <div className="flex items-start justify-between gap-3">
@@ -234,10 +230,10 @@ export default function AdminPage() {
                         #{b.bookingCode}
                       </div>
                       <div className="mt-1 font-impact text-[16px] leading-tight truncate">
-                        {tk.name}
+                        {ticketLabel(b)}
                       </div>
                       <div className="mt-0.5 font-mono text-[10.5px] text-bone/60">
-                        {s.label}
+                        {sessionLabel(b)}
                       </div>
                       <div className="mt-1 font-mono text-[10.5px] text-bone/75 truncate">
                         {b.attendee.fullName} · {b.attendee.email}
@@ -309,6 +305,15 @@ function Kpi({
       </div>
     </div>
   );
+}
+
+function ticketLabel(b: Booking) {
+  return ticketById(b.ticketTypeId)?.name ?? `Unknown ticket (${b.ticketTypeId})`;
+}
+
+function sessionLabel(b: Booking) {
+  const s = sessionById(b.sessionId);
+  return s ? `${s.label} · ${s.time}` : `Unknown session (${b.sessionId})`;
 }
 
 function mkBooking(

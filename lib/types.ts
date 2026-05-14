@@ -7,7 +7,7 @@ export type Status =
 
 export interface TicketType {
   id: string;
-  category: "ENTRY" | "WORKSHOP" | "VIP" | "EARLY_BIRD" | "GROUP";
+  category: "ENTRY" | "WORKSHOP" | "PROGRAM" | "VIP" | "EARLY_BIRD" | "GROUP";
   name: string;
   subtitle: string;
   priceTHB: number;

@@ -38,9 +38,9 @@ export function EventArtwork({
   // If we have an uploaded image, render it.
   if (src) {
     return (
-      <div className={`relative overflow-hidden ${ASPECTS[aspect]} ${className}`}>
+      <div className={`ambient-artwork relative overflow-hidden ${ASPECTS[aspect]} ${className}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt={title || "Event artwork"} className="w-full h-full object-cover" />
+        <img src={src} alt={title || "Workshop artwork"} className="artwork-drift w-full h-full object-cover" />
         {/* Bottom gradient to keep overlays readable */}
         <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent" />
         {!bare && (eyebrow || title || footer) && (
@@ -52,7 +52,7 @@ export function EventArtwork({
 
   // No image uploaded — show a neutral placeholder with a photo icon.
   return (
-    <div className={`relative overflow-hidden ${ASPECTS[aspect]} ${className} bg-bone/8 flex items-center justify-center`}>
+    <div className={`ambient-artwork relative overflow-hidden ${ASPECTS[aspect]} ${className} bg-bone/8 flex items-center justify-center`}>
       <svg width="64" height="64" viewBox="0 0 80 80" fill="none" className="opacity-30">
         <rect width="80" height="80" rx="16" fill="white" fillOpacity="0.15"/>
         <circle cx="28" cy="30" r="8" fill="white"/>
