@@ -510,10 +510,14 @@ label.eyebrow {
   opacity: 0.4;
   transform: scale(0.95);
   transition: opacity 0.35s ease, transform 0.35s ease;
+  /* Peeking neighbours stay in the DOM but must not be tappable —
+     otherwise a tap near the edge hits an off-screen day's workshop link. */
+  pointer-events: none;
 }
 .scrub-card.is-active {
   opacity: 1;
   transform: scale(1);
+  pointer-events: auto;
 }
 .scrub-card-inner {
   position: relative;

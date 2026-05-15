@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 // Text-only wordmark. No logo until brand is finalized.
@@ -29,22 +31,31 @@ export function BrandMark({
 
 export function TopBar({
   back,
+  onBack,
   title,
   right,
 }: {
   back?: string;
+  onBack?: () => void;
   title?: string;
   right?: React.ReactNode;
 }) {
+  const backCls =
+    "font-mono text-[11px] tracking-[0.2em] text-bone/70 hover:text-volt";
   return (
     <div className="px-5 h-14 flex items-center justify-between gap-3 border-b border-bone/10">
       <div className="flex items-center gap-3 min-w-0">
-        {back ? (
-          <Link
-            href={back}
+        {onBack ? (
+          <button
+            type="button"
+            onClick={onBack}
             aria-label="Back"
-            className="font-mono text-[11px] tracking-[0.2em] text-bone/70 hover:text-volt"
+            className={backCls}
           >
+            ← BACK
+          </button>
+        ) : back ? (
+          <Link href={back} aria-label="Back" className={backCls}>
             ← BACK
           </Link>
         ) : (

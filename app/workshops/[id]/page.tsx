@@ -14,10 +14,21 @@ export default function WorkshopDetailPage({ params }: { params: { id: string } 
   const w = WORKSHOPS[params.id];
   const tk = ticketById(params.id);
 
+  // Reachable from the home scrub calendar, the home preview rail, and the
+  // /tickets funnel — so go back to wherever the user actually came from.
+  // Fall back to /tickets only on a cold deep-link with no in-app history.
+  const goBack = () => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push("/tickets");
+    }
+  };
+
   if (!w || !tk) {
     return (
       <div className="px-5 py-10">
-        <TopBar back="/tickets" />
+        <TopBar onBack={goBack} />
         <p className="mt-6 text-bone/70 font-mono text-[12px]">Workshop not found.</p>
       </div>
     );
@@ -31,7 +42,7 @@ export default function WorkshopDetailPage({ params }: { params: { id: string } 
   return (
     <div className="relative pb-cta">
       <WorkshopRunRail targetId="run-outline" count={w.outline.length} />
-      <TopBar back="/tickets" title="WORKSHOP" />
+      <TopBar onBack={goBack} title="WORKSHOP" />
 
       {/* Hero artwork */}
       <EventArtwork
