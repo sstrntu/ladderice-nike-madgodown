@@ -6,6 +6,7 @@ import { EventArtwork } from "@/components/EventArtwork";
 import { WORKSHOPS } from "@/lib/workshops";
 import { ticketById, THB } from "@/lib/data";
 import { useBooking } from "@/lib/context";
+import { WorkshopRunRail } from "@/components/WorkshopRunRail";
 
 export default function WorkshopDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function WorkshopDetailPage({ params }: { params: { id: string } 
 
   return (
     <div className="relative pb-cta">
+      <WorkshopRunRail targetId="run-outline" count={w.outline.length} />
       <TopBar back="/tickets" title="WORKSHOP" />
 
       {/* Hero artwork */}
@@ -79,10 +81,14 @@ export default function WorkshopDetailPage({ params }: { params: { id: string } 
 
         {/* Outline */}
         <Block title="The 2-hour run">
-          <ol className="space-y-3">
+          <ol id="run-outline" className="space-y-3">
             {w.outline.map((step, i) => (
-              <li key={i} className="grid grid-cols-[auto_1fr] gap-3 items-start">
-                <span className="font-mono text-[10.5px] tracking-[0.18em] text-volt pt-0.5 whitespace-nowrap">
+              <li
+                key={i}
+                data-step
+                className="run-step grid grid-cols-[auto_1fr] gap-3 items-start"
+              >
+                <span className="run-step-time font-mono text-[10.5px] tracking-[0.18em] pt-0.5 whitespace-nowrap">
                   {step.time}
                 </span>
                 <span className="text-[13px] text-bone/80 leading-snug">{step.title}</span>

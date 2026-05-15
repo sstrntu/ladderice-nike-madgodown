@@ -6,6 +6,7 @@ import { EventArtwork } from "@/components/EventArtwork";
 import { AdminBanner } from "@/components/AdminBanner";
 import { WORKSHOPS } from "@/lib/workshops";
 import { HomeMotion } from "@/components/HomeMotion";
+import { WorkshopScrubCalendar } from "@/components/WorkshopScrubCalendar";
 
 export default function Landing() {
   const workshopTypes = TICKET_TYPES.filter((t) => t.category === "WORKSHOP");
@@ -132,37 +133,7 @@ export default function Landing() {
             BY LADDERICE<br />APRIL 2026
           </div>
         </div>
-        <div className="mt-6 border-t border-dotted border-volt/70">
-          {WORKSHOP_OUTLOOK.map((day, i) => (
-            <article
-              key={day.date}
-              className="motion-reveal calendar-row grid grid-cols-[82px_1fr] gap-4 py-4 border-b border-dotted border-volt/45"
-              style={{ "--row-delay": `${i * 55}ms` } as React.CSSProperties}
-            >
-              <div>
-                <div className="font-display text-volt text-[20px] leading-none">{day.day}</div>
-                <div className="font-display text-volt text-[38px] leading-none">{day.label}</div>
-              </div>
-              <ul className="space-y-2 pt-1">
-                {day.items.map((item) => (
-                  <li key={item.label} className="flex gap-2 text-[13px] leading-snug text-bone/85">
-                    <span className="text-volt">•</span>
-                    {item.ticketTypeId ? (
-                      <Link
-                        href={`/workshops/${item.ticketTypeId}`}
-                        className="calendar-workshop-link hover:text-volt hover:underline underline-offset-4"
-                      >
-                        {item.label}
-                      </Link>
-                    ) : (
-                      <span>{item.label}</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
+        <WorkshopScrubCalendar />
       </section>
 
       {/* WORKSHOP INFO */}
